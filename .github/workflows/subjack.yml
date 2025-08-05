@@ -16,13 +16,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y golang git curl jq
-
-      - name: Clone subjack & build
-        run: |
-          git clone https://github.com/haccer/subjack.git
-          cd subjack
-          go mod init subjack
-          go mod tidy
+          go get github.com/haccer/subjack && sudo mv ~/go/bin/subjack /usr/bin/
 
       - name: Download domain list & run subjack
         run: |
@@ -30,7 +24,7 @@ jobs:
           curl -s "https://raw.githubusercontent.com/z0rs/SubHunt/refs/heads/master/results/mobile-resolved.txt" \
             | awk '{print $1}' | sort -u > results/domains.txt
 
-          go run $HOME/subjack/main.go -w results/domains.txt -t 50 -timeout 10 -ssl -c ./subjack/fingerprints.json -v -o results/results.txt
+          subjack -w results/domains.txt -t 50 -timeout 10 -ssl -c ./subjack/fingerprints.json -v -o results/results.txt
 
       - name: Commit & Push Results
         run: |
