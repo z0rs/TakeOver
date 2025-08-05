@@ -16,7 +16,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y golang git curl jq
-          go get github.com/haccer/subjack && sudo mv ~/go/bin/subjack /usr/bin/
+          go install github.com/haccer/subjack && sudo mv ~/go/bin/subjack /usr/bin/
 
       - name: Download domain list & run subjack
         run: |
