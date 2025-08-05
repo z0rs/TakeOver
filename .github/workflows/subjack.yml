@@ -24,24 +24,20 @@ jobs:
           go mod init subjack
           go mod tidy
           go build -o subjack main.go
-          mv subjack ../subjack-bin
+          mv subjack ./subjack-bin
 
       - name: Download domain list & run subjack
         run: |
           mkdir -p results
-
-          # ambil daftar subdomain & simpan ke file
           curl -s "https://raw.githubusercontent.com/z0rs/SubHunt/refs/heads/master/results/mobile-resolved.txt" \
             | awk '{print $1}' | sort -u > results/domains.txt
 
-          # jalanin subjack
           ./subjack-bin -w results/domains.txt -t 50 -timeout 10 -ssl -c ./subjack/fingerprints.json -v -o results/results.txt
 
       - name: Commit & Push Results
         run: |
           git config --global user.email "${{ secrets.EMAIL_ADDRESS }}"
           git config --global user.name "${{ secrets.USER_NAME }}"
-
           git add results/
           git commit -m "🏴‍☠️ Takeover Hunt Update" --no-verify || echo "No changes to commit"
-          git push || echo "Nothing to push"
+          git push origin master || true
