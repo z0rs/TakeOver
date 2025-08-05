@@ -1,14 +1,15 @@
-name: Subjack Takeover Check
+name: Subdomain Takeover Hunt
 
 on:
-  workflow_dispatch:
+  push:
+    branches: [master]
 
 jobs:
-  subjack-scan:
+  takeover-hunt:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Install dependencies
