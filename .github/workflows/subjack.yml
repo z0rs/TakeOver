@@ -9,13 +9,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Setup Go 1.23
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.23'
+
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Install dependencies
+      - name: Install dependencies & subjack
         run: |
           sudo apt-get update
-          sudo apt-get install -y golang git curl jq
+          sudo apt-get install -y git curl jq
           go install github.com/haccer/subjack@latest
           cp $(go env GOPATH)/bin/subjack ./subjack
 
@@ -25,7 +30,7 @@ jobs:
           curl -s "https://raw.githubusercontent.com/z0rs/SubHunt/refs/heads/master/results/mobile-resolved.txt" \
             | awk '{print $1}' | sort -u > results/domains.txt
 
-          subjack -w results/domains.txt -t 50 -timeout 10 -ssl -c ./subjack/fingerprints.json -v -o results/results.txt
+          ./subjack -w results/domains.txt -t 50 -timeout 10 -ssl -v -o results/results.txt
 
       - name: Commit & Push Results
         run: |
