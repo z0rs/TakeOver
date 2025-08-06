@@ -17,27 +17,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Install dependencies & subjack
+      - name: Install dependencies & subzy
         run: |
           sudo apt-get update
           sudo apt-get install -y curl
-          go install github.com/haccer/subjack@latest
+          go install github.com/LukaSikic/subzy@latest
+          cp $(go env GOPATH)/bin/subzy ./subzy
 
-          # Copy binary
-          cp $(go env GOPATH)/bin/subjack ./subjack
-
-          # Download fingerprints.json
-          mkdir -p subjack-data
-          curl -sL https://raw.githubusercontent.com/haccer/subjack/master/fingerprints.json -o subjack-data/fingerprints.json
-
-      - name: Download domain list & run subjack
+      - name: Download domain list & run subzy
         run: |
-          #curl -s "https://raw.githubusercontent.com/z0rs/Hunting/refs/heads/master/results/takeover-candidates.txt" \
-          #  | awk '{print $1}' | sort -u > results/domains.txt
-          curl -s "https://raw.githubusercontent.com/z0rs/Hunting/refs/heads/master/results/takeover-candidates.txt" | awk '{print $1}' | sort -u > results/domains.txt
+          mkdir -p results
+          curl -s "https://raw.githubusercontent.com/z0rs/Hunting/refs/heads/master/results/takeover-candidates.txt" \
+            | awk '{print $1}' | sort -u > results/domains.txt
 
-          subjack -w results/domains.txt -t 50 -timeout 10 -ssl \
-            -c subjack-data/fingerprints.json -v -o results/unimelb.txt
+          subzy run --targets results/domains.txt --concurrency 50 --verify --hide_fails --timeout 10 --output results/takeover.txt
 
       - name: Commit & Push Results
         run: |
