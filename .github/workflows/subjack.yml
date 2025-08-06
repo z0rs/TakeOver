@@ -32,12 +32,12 @@ jobs:
 
       - name: Download domain list & run subjack
         run: |
-          #curl -s "https://raw.githubusercontent.com/z0rs/SubHunt/refs/heads/master/results/mobile-resolved.txt" \
+          #curl -s "https://raw.githubusercontent.com/z0rs/Hunting/refs/heads/master/results/takeover-candidates.txt" \
           #  | awk '{print $1}' | sort -u > results/domains.txt
           curl -s "https://raw.githubusercontent.com/z0rs/Hunting/refs/heads/master/results/assetfinder.txt" | sort -u > results/domains.txt
 
           subjack -w results/domains.txt -t 50 -timeout 10 -ssl \
-            -c subjack-data/fingerprints.json -v -o results/results.txt
+            -c subjack-data/fingerprints.json -v -o results/unimelb.txt
 
       - name: Commit & Push Results
         run: |
