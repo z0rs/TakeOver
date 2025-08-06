@@ -27,10 +27,10 @@ jobs:
       - name: Download domain list & run subzy
         run: |
           mkdir -p results
-          curl -s "https://raw.githubusercontent.com/z0rs/Hunting/refs/heads/master/results/takeover-candidates.txt" \
+          curl -s "https://raw.githubusercontent.com/z0rs/Hunting/refs/heads/master/results/unimelb-resolved.txt" \
             | awk '{print $1}' | sort -u > results/domains.txt
 
-          subzy run --targets results/domains.txt --concurrency 50 --hide_fails --timeout 10 --vuln --output results/takeover.json
+          subzy run --targets results/domains.txt --concurrency 50 --hide_fails --timeout 10 --vuln --output results/takeover-unimelb.json
 
       - name: Commit & Push Results
         run: |
