@@ -30,7 +30,7 @@ jobs:
           curl -s "https://raw.githubusercontent.com/z0rs/Hunting/refs/heads/master/results/takeover-candidates.txt" \
             | awk '{print $1}' | sort -u > results/domains.txt
 
-          subzy run --targets results/domains.txt --concurrency 50 --verify --hide_fails --timeout 10 --output results/takeover.txt
+          subzy run --targets results/domains.txt --concurrency 50 --hide_fails --timeout 10 --vuln --output results/takeover.json
 
       - name: Commit & Push Results
         run: |
