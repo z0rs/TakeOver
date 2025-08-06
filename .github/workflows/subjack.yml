@@ -21,7 +21,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y curl
-          go install github.com/LukaSikic/subzy@latest
+          go install github.com/PentestPad/subzy@latest
           cp $(go env GOPATH)/bin/subzy ./subzy
 
       - name: Download domain list & run subzy
