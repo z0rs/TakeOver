@@ -1,0 +1,16 @@
+[
+  {
+    "subdomain": "http://www.giving.unimelb.edu.au",
+    "status": "vulnerable",
+    "engine": "Fastly",
+    "documentation": "",
+    "discussion": "",
+    "cicd_pass": false,
+    "cname": null,
+    "fingerprint": "",
+    "http_status": null,
+    "nxdomain": false,
+    "service": "",
+    "vulnerable": false
+  }
+]
